@@ -1,0 +1,256 @@
+/* ==========================================================================
+   1. DESIGN TOKENS (CSS Variables) & THEME MANAGEMENT
+   ========================================================================== */
+:root {
+    /* Light Mode Palette (Default) */
+    --bg-primary: #ffffff;
+    --bg-surface: #f8f9fa;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a5568;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --border-color: #e2e8f0;
+    --focus-ring: #60a5fa;
+    --transition-speed: 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Mode Palette */
+        --bg-primary: #0f172a;
+        --bg-surface: #1e293b;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent: #3b82f6;
+        --accent-hover: #60a5fa;
+        --border-color: #334155;
+    }
+}
+
+/* Base Reset & Accessibility Settings */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Clear Visual Keyboard Focus Indicator */
+a:focus-visible, 
+button:focus-visible, 
+input:focus-visible, 
+textarea:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   2. COMPONENT ALIGNMENT (Flexbox)
+   ========================================================================== */
+header {
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 5%;
+    
+    /* Flexbox Layout for Header Components */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+header .logo a {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.25rem 0;
+    transition: color var(--transition-speed);
+}
+
+nav a:hover, nav a[aria-current="page"] {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+}
+
+footer {
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+    padding: 2rem 5%;
+    margin-top: 4rem;
+    
+    /* Flexbox Layout for Footer Components */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+footer svg {
+    fill: var(--text-secondary);
+    transition: fill var(--transition-speed);
+}
+
+footer a:hover svg {
+    fill: var(--accent);
+}
+
+/* ==========================================================================
+   3. MOBILE-FIRST BASE LAYOUT & FORM LAYOUT
+   ========================================================================== */
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 5%;
+}
+
+section {
+    padding: 3rem 0;
+}
+
+h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Project Cards default Stacked layout for Mobile Devices */
+.project-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.project-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform var(--transition-speed);
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+}
+
+.project-card h3 {
+    margin-bottom: 0.75rem;
+}
+
+.project-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+}
+
+.project-card a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Accessible Accessible Form Elements styling */
+form {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+    max-width: 600px;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+input, textarea {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color var(--transition-speed);
+}
+
+input:hover, textarea:hover {
+    border-color: var(--text-secondary);
+}
+
+button[type="submit"] {
+    background-color: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+button[type="submit"]:hover {
+    background-color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   4. TWO-DIMENSIONAL PAGE LAYOUTS & RESPONSIVE DESIGN (Media Queries)
+   ========================================================================== */
+
+/* Tablet & Desktop Layout Transitions */
+@media (min-width: 768px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.5rem 5%;
+    }
+
+    footer {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        max-width: 80%;
+    }
+
+    /* CSS Grid Activated for Complex Multi-Column Layouts on Desktop */
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
