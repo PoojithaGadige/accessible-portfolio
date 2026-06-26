@@ -24,7 +24,6 @@ const routes = {
         </section>
     `,
 
-    // FIX FOR THE 404 ERROR: Added the Weather view template directly into the router
     '/weather': () => `
         <section style="max-width: 500px; margin: 0 auto; text-align: center;">
             <h1>Live Weather Dashboard</h1>
@@ -53,6 +52,27 @@ const routes = {
                 </div>
             </div>
         </section>
+    `,
+
+    // FIX FOR THE TASK 404 ERROR: Added the To-Do View Template
+    '/todo': () => `
+        <section style="max-width: 600px; margin: 0 auto;">
+            <h1>JavaScript Task Manager</h1>
+            <p>A state-driven application managing local persistence and event delegation.</p>
+
+            <div style="margin: 2rem 0; display: flex; gap: 0.5rem;">
+                <input type="text" id="todo-input" placeholder="What needs to be done?" style="flex-grow: 1; padding: 0.75rem;" aria-label="New task description">
+                <button id="add-btn" style="padding: 0.75rem 1.5rem; background: var(--accent); color: white; border: none; cursor: pointer;">Add Task</button>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;" id="filter-controls">
+                <button data-filter="all" style="padding: 0.25rem 0.7rem; cursor: pointer; font-weight: ${currentFilter === 'all' ? 'bold' : 'normal'};">All</button>
+                <button data-filter="active" style="padding: 0.25rem 0.7rem; cursor: pointer; font-weight: ${currentFilter === 'active' ? 'bold' : 'normal'};">Active</button>
+                <button data-filter="completed" style="padding: 0.25rem 0.7rem; cursor: pointer; font-weight: ${currentFilter === 'completed' ? 'bold' : 'normal'};">Completed</button>
+            </div>
+
+            <ul id="todo-list" style="list-style: none; padding: 0;"></ul>
+        </section>
     `
 };
 
@@ -64,9 +84,11 @@ function router() {
     const renderContent = routes[path] || (() => `<section><h1>404 Error</h1><p>View layer route missing.</p></section>`);
     appTarget.innerHTML = renderContent();
 
-    // Re-bind JavaScript logic listeners after injection occurs
+    // Dynamically boot script operational logics based on path link
     if (path === '/weather') {
         initWeatherLogic();
+    } else if (path === '/todo') {
+        initTodoLogic();
     }
 }
 
@@ -77,7 +99,7 @@ function initWeatherLogic() {
     const errorMessage = document.getElementById('error-message');
     const weatherDisplay = document.getElementById('weather-display');
 
-    if (!searchBtn) return; // Guard clause if elements aren't rendered yet
+    if (!searchBtn) return;
 
     async function getWeatherData() {
         const city = cityInput.value.trim();
@@ -108,6 +130,90 @@ function initWeatherLogic() {
     cityInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') getWeatherData();
     });
+}
+
+// 5. TO-DO FUNCTIONALITY WRAPPER
+function initTodoLogic() {
+    const todoList = document.getElementById('todo-list');
+    const todoInput = document.getElementById('todo-input');
+    const addBtn = document.getElementById('add-btn');
+    const filterControls = document.getElementById('filter-controls');
+
+    if (!todoList) return;
+
+    function renderTodos() {
+        todoList.innerHTML = '';
+
+        const filteredTodos = todos.filter(todo => {
+            if (currentFilter === 'active') return !todo.completed;
+            if (currentFilter === 'completed') return todo.completed;
+            return true;
+        });
+
+        filteredTodos.forEach(todo => {
+            const li = document.createElement('li');
+            li.style.display = 'flex';
+            li.style.justifyContent = 'space-between';
+            li.style.padding = '0.75rem';
+            li.style.backgroundColor = 'var(--bg-surface)';
+            li.style.border = '1px solid var(--border-color)';
+            li.style.marginBottom = '0.5rem';
+            li.style.alignItems = 'center';
+
+            li.innerHTML = `
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input type="checkbox" class="toggle-box" data-id="${todo.id}" ${todo.completed ? 'checked' : ''} aria-label="Mark task as complete">
+                    <span style="${todo.completed ? 'text-decoration: line-through; color: var(--text-secondary);' : ''}">${todo.text}</span>
+                </div>
+                <button class="delete-btn" data-id="${todo.id}" style="background: #dc2626; color: white; border: none; padding: 0.25rem 0.5rem; cursor: pointer;" aria-label="Delete task">Delete</button>
+            ];`;
+            todoList.appendChild(li);
+        });
+
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    function addTodo() {
+        const text = todoInput.value.trim();
+        if (text === '') return;
+
+        todos.push({
+            id: Date.now().toString(),
+            text: text,
+            completed: false
+        });
+        todoInput.value = '';
+        renderTodos();
+    }
+
+    addBtn.addEventListener('click', addTodo);
+    todoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addTodo();
+    });
+
+    todoList.addEventListener('click', (e) => {
+        const target = e.target;
+        const id = target.getAttribute('data-id');
+
+        if (target.classList.contains('toggle-box')) {
+            todos = todos.map(todo => todo.id === id ? { ...todo, completed: target.checked } : todo);
+            renderTodos();
+        } else if (target.classList.contains('delete-btn')) {
+            todos = todos.filter(todo => todo.id !== id);
+            renderTodos();
+        }
+    });
+
+    filterControls.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            currentFilter = e.target.getAttribute('data-filter');
+            Array.from(filterControls.children).forEach(btn => btn.style.fontWeight = 'normal');
+            e.target.style.fontWeight = 'bold';
+            renderTodos();
+        }
+    });
+
+    renderTodos(); // Initial compilation draw
 }
 
 // Event hooks for structural state management
