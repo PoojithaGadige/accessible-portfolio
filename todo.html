@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager | Pooja's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html">Puja.dev</a></div>
+        <nav aria-label="Main Navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="todo.html" aria-current="page">To-Do App</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section style="max-width: 600px; margin: 0 auto;">
+            <h1>JavaScript Task Manager</h1>
+            <p>A state-driven application managing local persistence and event delegation.</p>
+
+            <div style="margin: 2rem 0; display: flex; gap: 0.5rem;">
+                <input type="text" id="todo-input" placeholder="What needs to be done?" style="flex-grow: 1; padding: 0.75rem;" aria-label="New task description">
+                <button id="add-btn" style="padding: 0.75rem 1.5rem; background: var(--accent); color: white; border: none; cursor: pointer;">Add Task</button>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;" id="filter-controls">
+                <button data-filter="all" style="padding: 0.25rem 0.7rem; cursor: pointer; font-weight: bold;">All</button>
+                <button data-filter="active" style="padding: 0.25rem 0.7rem; cursor: pointer;">Active</button>
+                <button data-filter="completed" style="padding: 0.25rem 0.7rem; cursor: pointer;">Completed</button>
+            </div>
+
+            <ul id="todo-list" style="list-style: none; padding: 0;"></ul>
+        </section>
+    </main>
+
+    <script src="todo.js"></script>
+</body>
+</html>
