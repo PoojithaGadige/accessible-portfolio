@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get in touch with Pooja. Use this accessible form to send a message regarding project collaborations or employment opportunities.">
+    <title>Contact | Pooja's Portfolio</title>
+</head>
+<body>
+
+    <a href="#main-content" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;">Skip to main content</a>
+
+    <header role="banner">
+        <div class="logo">
+            <a href="index.html" aria-label="Pooja Portfolio Home">Puja.dev</a>
+        </div>
+        <nav aria-label="Main Navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="contact.html" aria-current="page">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section aria-labelledby="contact-heading">
+            <h1 id="contact-heading">Contact Me</h1>
+            <p>Have a question or want to work together? Drop me a message below.</p>
+
+            <form action="#" method="POST" novalidate>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: bold;" for="user-name">Full Name <span aria-hidden="true">*</span></label>
+                    <input type="text" id="user-name" name="name" required aria-required="true" autocomplete="name" placeholder="Jane Doe" style="width: 100%; max-width: 400px; padding: 0.5rem;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: bold;" for="user-email">Email Address <span aria-hidden="true">*</span></label>
+                    <input type="email" id="user-email" name="email" required aria-required="true" autocomplete="email" placeholder="jane.doe@example.com" style="width: 100%; max-width: 400px; padding: 0.5rem;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: bold;" for="user-message">Your Message <span aria-hidden="true">*</span></label>
+                    <textarea id="user-message" name="message" rows="6" required aria-required="true" placeholder="Tell me about your project..." style="width: 100%; max-width: 400px; padding: 0.5rem;"></textarea>
+                </div>
+
+                <button type="submit" style="padding: 0.75rem 1.5rem; font-weight: bold; cursor: pointer;">Send Message</button>
+
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p>&copy; 2026 Pooja. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
